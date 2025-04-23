@@ -1,0 +1,70 @@
+openapi: 3.0.3
+info:
+  title: Social Auth API
+  version: 1.0.0
+  description: API для аутентификации через социальные сети и получения данных пользователя
+servers:
+  - url: http://localhost:3000
+    description: Development server
+  - url: https://api.your-service.com
+    description: Production server
+
+paths:
+  /auth/{provider}:
+    post:
+      summary: Обмен токена социальной сети на JWT
+      description: |
+        Верифицирует токен социальной сети и возвращает JWT для доступа к API
+      parameters:
+        - name: provider
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [google, yandex, vk]
+          description: Провайдер аутентификации
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                  example: "ya29.a0AbVbY..."
+              required: [accessToken]
+      responses:
+        '200':
+          description: Успешная аутентификация
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        '401':
+          description: Невалидный токен
+        '500':
+          description: Ошибка сервера
+      tags:
+        - Authentication
+
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Invalid token"
+
+  responses:
+    UnauthorizedError:
+      description: Невалидный или отсутствующий токен
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
