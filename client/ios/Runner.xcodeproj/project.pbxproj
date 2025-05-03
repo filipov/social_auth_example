@@ -200,6 +200,7 @@
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				5166F0D86650CB869C99CDF0 /* [CP] Embed Pods Frameworks */,
+				16CF33CF2DC1F0BD00D76BA2 /* Dart Defines */,
 			);
 			buildRules = (
 			);
@@ -271,6 +272,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		16CF33CF2DC1F0BD00D76BA2 /* Dart Defines */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Dart Defines";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Flutter/Environment.xcconfig",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nfunction entry_decode() { echo \"${*}\" | base64 --decode; }\n\nIFS=',' read -r -a define_items <<< \"$DART_DEFINES\"\n\nfor index in \"${!define_items[@]}\"\ndo\n    define_items[$index]=$(entry_decode \"${define_items[$index]}\");\n    # Экспортируем переменные в xcconfig\n    echo \"${define_items[$index]}\" >> \"${SRCROOT}/Flutter/Environment.xcconfig\"\ndone\n";
+		};
 		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -317,7 +337,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
 		};
 		A6B4ABC30A335AF8494B6272 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

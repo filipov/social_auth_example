@@ -47,7 +47,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:scheme="com.googleusercontent.apps.18792754679-f5bso8tvtga9n5ga8aiofhj63k7eotc9"
+                    android:scheme="com.googleusercontent.apps.${GOOGLE_APP_ID}"
                     />
             </intent-filter>
             <intent-filter>
@@ -57,17 +57,15 @@
                 <data
 
                     android:host="vk.com"
-                    android:scheme="vk53460008"
+                    android:scheme="vk${VK_CLIENT_ID}"
                     />
             </intent-filter>
-            <intent-filter android:autoVerify="true">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:host="yxba99d9fac22646638bce62a902cf2c12.oauth.yandex.ru"
-                    android:scheme="https"
-                    android:path="/auth/finish"
+                    android:scheme="yx${YA_CLIENT_ID}"
                     />
             </intent-filter>
         </activity>

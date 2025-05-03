@@ -2,6 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+       <string>primaryyandexloginsdk</string>
+       <string>secondaryyandexloginsdk</string>
+    </array>
+    <key>FlutterDeepLinkingEnabled</key>
+    <false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -29,7 +36,8 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>vk53460009</string>
+				<string>vk$(VK_CLIENT_ID)</string>
+				<string>yx$(YA_CLIENT_ID)</string>
 			</array>
 		</dict>
 		<dict>

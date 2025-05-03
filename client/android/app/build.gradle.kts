@@ -1,5 +1,6 @@
 import java.util.Properties
 import java.io.FileInputStream
+import java.util.Base64
 
 plugins {
     id("com.android.application")
@@ -29,17 +30,29 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "dev.filipov.social_auth_example"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
 
-//        manifestPlaceholders["appAuthRedirectScheme"] = "dev.filipov.social_auth_example"
-//        manifestPlaceholders["appAuthRedirectScheme"] = "vk53415957"
+        // Читаем код из переменных окружения
+        val dartDefinitions = project.properties["dart-defines"]
+            ?.toString()
+            ?.split(",")
+            ?.associate { entry ->
+                val decodedBytes = Base64.getDecoder().decode(entry)
+                val decodedString = String(decodedBytes, Charsets.UTF_8)
+                val parts = decodedString.split("=", limit = 2)
+                parts[0] to parts.getOrElse(1) { "" }
+            } ?: emptyMap()
+
+        // Установка значений через apply
+        manifestPlaceholders.apply {
+            put("VK_CLIENT_ID", dartDefinitions["VK_CLIENT_ID"] ?: "")
+            put("YA_CLIENT_ID", dartDefinitions["YA_CLIENT_ID"] ?: "")
+            put("GOOGLE_APP_ID", dartDefinitions["GOOGLE_APP_ID"] ?: "")
+        }
     }
 
     signingConfigs {

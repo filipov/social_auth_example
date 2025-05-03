@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:social_auth_example/providers/signInWithGoogle.dart';
-import 'package:social_auth_example/providers/signInWithVK.dart';
-import 'package:social_auth_example/providers/signInWithYandex.dart';
+import 'package:social_auth_example/providers/get_user_data.dart';
+import 'package:social_auth_example/providers/oauth_sign_in.dart';
 
 void main() {
   runApp(const MyApp());
@@ -94,25 +93,49 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             MaterialButton(
               onPressed: () async {
-                final accessToken = await signInWithGoogle();
+                final provider = OAuthSignIn.forGoogle();
 
-                showAlert(accessToken);
+                final accessToken = await provider.getAccessToken();
+
+                if (accessToken == null) {
+                  showAlert('Wrong authentication');
+                }
+
+                final userData = await getUserData('google', accessToken!, provider.clientId);
+
+                showAlert(userData);
               },
               child: const Text("Google"),
             ),
             MaterialButton(
               onPressed: () async {
-                final accessToken = await signInWithYandex();
+                final provider = OAuthSignIn.forYandex();
 
-                showAlert(accessToken);
+                final accessToken = await provider.getAccessToken();
+
+                if (accessToken == null) {
+                  showAlert('Wrong authentication');
+                }
+
+                final userData = await getUserData('yandex', accessToken!, provider.clientId);
+
+                showAlert(userData);
               },
               child: const Text("Yandex"),
             ),
             MaterialButton(
               onPressed: () async {
-                final accessToken = await signInWithVK();
+                final provider = OAuthSignIn.forVk();
 
-                showAlert(accessToken);
+                final accessToken = await provider.getAccessToken();
+
+                if (accessToken == null) {
+                  showAlert('Wrong authentication');
+                }
+
+                final userData = await getUserData('vk', accessToken!, provider.clientId);
+
+                showAlert(userData);
               },
               child: const Text("VK"),
             ),
